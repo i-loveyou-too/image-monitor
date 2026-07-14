@@ -53,7 +53,12 @@ def run_crawl(db: Session, seller: models.Seller) -> models.CrawlJob:
 
         job.final_page_url = artifacts.final_page_url
 
-        blocked_reason = detect_blocked_page(
+        # An adapter can set artifacts.status_reason when it already knows
+        # precisely why it's blocked (e.g. a Cloudflare challenge that never
+        # cleared, or a Naver login/captcha redirect it waited out itself).
+        # No existing adapter populates this field, so this is a no-op for
+        # them; detect_blocked_page() remains the sole decision-maker there.
+        blocked_reason = artifacts.status_reason or detect_blocked_page(
             artifacts.final_page_url,
             artifacts.page_title,
             artifacts.page_content,
