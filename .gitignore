@@ -1,0 +1,9 @@
+backend/.venv/
+backend/.venv311/
+backend/storage/
+backend/*.db
+backend/*.log
+backend/__pycache__/
+backend/**/*.pyc
+chrome-profile/
+*.xlsx
